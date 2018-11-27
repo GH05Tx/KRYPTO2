@@ -1,3 +1,4 @@
+package sample;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -16,7 +17,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         window=primaryStage;
-        window.setTitle("Hello World");     //cale te trzy linijki co jest window to tworzymy jakby nasze okno
+        window.setTitle("Rabin Cryptosystem");     //cale te trzy linijki co jest window to tworzymy jakby nasze okno
 
         GridPane grid = new GridPane();     //tworzymy nową siatkę żeby ładnie mozna było porozkładać wszystkie elementy
         grid.setPadding(new Insets(15, 15, 15, 15));        //pokazujemy na ile elementow dzielimy siatke
@@ -96,15 +97,27 @@ public class Main extends Application {
             cipherInput.decipher(zaszyfrowany, n, p, q);
             Correct solution = new Correct(cipherInput, fileContent);
             byte[] odszyfrowany = solution.choose();
+            System.out.println("P: " + p);
+            System.out.println("Q: " + q);
+            System.out.println("N: " + n);
+            for(int i=0; i< fileContent.length; i++){
+                if(fileContent[i] != odszyfrowany[i]){
+                    System.out.print("Poprawny wejściowy: " + fileContent[i]);
+                    System.out.print("  Zły wyjściowy: " + odszyfrowany[i] + "    " + (short) solution.szyfry.x1[i].shortValue() + "    " + (short) solution.szyfry.x2[i].shortValue() + "    " + (short) solution.szyfry.x3[i].shortValue() + "    " + (short) solution.szyfry.x4[i].shortValue());
+                    System.out.println("    Oraz ich pozycja" + i);
+                    System.out.println(solution.szyfry.x1[i] + "  " + solution.szyfry.x2[i] + "  " + solution.szyfry.x3[i] + "  " + solution.szyfry.x4[i]);
+                }
+            }
             String ss2 = new String(odszyfrowany);
             decipherOutput.setText(ss2);
             cipherInput.saveToFile(odszyfrowany, fileoutInputD.getText());
+            //cipherInput.saveToFile(fileContent, fileoutInputD.getText());
         });
 
 
         grid.getChildren().addAll(fileLabel, fileInput, buttonFile, inputLabel, userInput, buttonInput, cipherLabel, cipherOutput, decipherLabel, decipherOutput, fileoutInputC, fileoutLabelC, fileoutInputD, fileoutLabelD); //dodajemy wszystko do siaty
 
-        Scene scene = new Scene(grid, 500, 475);        //ustawiamy "scene" i podajemy wymiary
+        Scene scene = new Scene(grid, 550, 400);        //ustawiamy "scene" i podajemy wymiary
         window.setScene(scene);     //przekazujemy ja do naszego okna
         window.show();      //i wyswietlamy
     }

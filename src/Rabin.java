@@ -1,3 +1,4 @@
+package sample;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -6,13 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
-
-
-///maina jeszcze nie ruszyłem - uzupełnie go adekwatnie do funkcji stąd
-///dodam jeszcze jedno okno do wyświetlania klucza publicznego
-///nie rozkminiłem nadal czy konwertowanie wszystkiego z tab byte na jakieś
-///łańcuchy nie byłoby dobrym posunięciem
-///chyba że ogarniemy jak wybierać który z 4 pierwiastków jest poprawny 
 
 public class Rabin {
 
@@ -56,8 +50,8 @@ public class Rabin {
             int tmp;
             tmp=(plainShort*plainShort);
             temp=BigInteger.valueOf(tmp);
-           // System.out.println("Tekst jawny o indeksie " + i + "to: " + plain[i]);
-           // System.out.print("zkwadratowany element tekstu jawnego : ");
+            // System.out.println("Tekst jawny o indeksie " + i + "to: " + plain[i]);
+            // System.out.print("zkwadratowany element tekstu jawnego : ");
             //System.out.println(temp.mod(n));
             //System.out.println("N: " + n);
             ciphered[i]=temp.mod(n);
@@ -79,8 +73,7 @@ public class Rabin {
         }
         return tab;
     }
-///ta kurwa jeszcze wymaga troche pracy
-///te inty na koniec przekonwertuje do byte - przy obliczeniach na bajtach wypierdalało mi błąd
+
     public void decipher(BigInteger[] ciphered, BigInteger n, BigInteger p, BigInteger q){
 
         //byte[] deciphered = new byte[ciphered.length];
@@ -109,8 +102,8 @@ public class Rabin {
         yq=tmp[0];
         for(int i=0 ;i<ciphered.length ;i++)
         {
-///zabawa zaczyna się od obliczenia pierwiastków kwadratowych liczby c(mod p) i c(mod q)
-///tzn mp=c^((p+1)/4)(mod p) i mq=c^((q+1)/4)(mod q)
+
+
 
             //BigInteger FOUR = new BigInteger("4");
             pom = p.add(BigInteger.ONE);

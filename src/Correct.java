@@ -1,3 +1,6 @@
+package sample;
+
+import java.math.BigInteger;
 
 public class Correct {
 
@@ -13,7 +16,7 @@ public class Correct {
         byte[] prawda = new byte[files.length];
 
         for (int i = 0; i < szyfry.x1.length; i++) {          // Prawdopodobnie ten for nie dziala
-            short pom = szyfry.x1[i].shortValue();            // ma on za zadanie podzielic naszego longa na dwa inty i sprawdzic
+           /* short pom = szyfry.x1[i].shortValue();            // ma on za zadanie podzielic naszego longa na dwa inty i sprawdzic
             byte dwa = (byte) (pom & 0xFF);           // który z 4 znków jest poprawny ( a będzie to ten w którym jeden
             byte jeden = (byte) ((pom >> 8) & 0xFF);       // int bedzie samymi zerami tak jak przy szyfrowaniu ustalilismy)
             short pom1 = szyfry.x2[i].shortValue();
@@ -27,23 +30,27 @@ public class Correct {
             byte jeden3 = (byte) ((pom3 >> 8) & 0xFF);
             if (jeden == 0x00) {
                 //char a = (char) dwa;
-                prawda[i] = dwa;
+                if(szyfry.x1[i].compareTo(BigInteger.valueOf(65536)) == -1) prawda[i] = (byte) szyfry.x1[i].shortValue();
                 //System.out.print(a);
             } else if (jeden1 == 0x00) {
                 //char b = (char) dwa1;
-                prawda[i] = dwa1;
+                if(szyfry.x2[i].compareTo(BigInteger.valueOf(65536)) == -1) prawda[i] = (byte) szyfry.x2[i].shortValue();
                 //System.out.print(b);
             } else if (jeden2 == 0x00) {
                 //byte[] c = szyfry.intToByteArray(dwa2);
                 //char c = (char) dwa2;
-                prawda[i] = dwa2;
+                if(szyfry.x3[i].compareTo(BigInteger.valueOf(65536)) == -1) prawda[i] = (byte) szyfry.x3[i].shortValue();
                 //System.out.print(c);
-            } else if (jeden3 == 0x00) {
+            } else {
                 //byte[] d = szyfry.intToByteArray(dwa3);
                 //char d = (char) dwa3;
-                prawda[i] = dwa3;
+                if(szyfry.x4[i].compareTo(BigInteger.valueOf(65536)) == -1) prawda[i] = (byte) szyfry.x4[i].shortValue();
                 //System.out.print(d);
-            }
+            }*/
+            if(szyfry.x1[i].compareTo(BigInteger.valueOf(65536)) == -1) prawda[i] = (byte) szyfry.x1[i].shortValue();
+            else if(szyfry.x2[i].compareTo(BigInteger.valueOf(65536)) == -1) prawda[i] = (byte) szyfry.x2[i].shortValue();
+            else if(szyfry.x3[i].compareTo(BigInteger.valueOf(65536)) == -1) prawda[i] = (byte) szyfry.x3[i].shortValue();
+            else prawda[i] = (byte) szyfry.x4[i].shortValue();
         }
         return prawda;
     }
