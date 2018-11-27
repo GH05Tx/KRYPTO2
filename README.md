@@ -12,7 +12,7 @@ Main
 Rabin - generating key, encrypting, decrypting 
 Correct - checking whether the deciphered roots are correct 
 	///Library 
-includes java/math library source code:
+includes java/math library source code
 
 !!! I DO NOT OWN ANY RIGHTS TO THE FILES MENTIONED BELOW. 
 THEY ARE USED FOR PERSONAL PURPOSES ONLY. 
