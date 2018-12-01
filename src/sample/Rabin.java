@@ -1,7 +1,3 @@
-
-package sample;
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 
-import sample.Library.Matma;
+import Library.Matma;
 
 public class Rabin {
 
@@ -29,10 +25,10 @@ public class Rabin {
         Matma P;
         Random rnd = new Random();
         do {
-            P = Matma.probablePrime(512, rnd);
+            P = Matma.probablePrime(1024, rnd);
             //P.isProbablePrime(100);
             //System.out.println("Heja");
-        } while (!P.mod(FOUR).equals(THREE) && P.isProbablePrime(10000));
+        } while (!P.mod(FOUR).equals(THREE));
         return P;
 
     }
@@ -45,20 +41,30 @@ public class Rabin {
     }
     ///szyfrowanie --> C=P^2(mod N)
     public Matma[] cipher(byte[] plain, Matma n){
-        Matma[] ciphered = new Matma[plain.length];
+        Matma[] ciphered = new Matma[3*plain.length];
         Matma temp;
-        for(int i=0 ;i<plain.length ;i++)
+        int pom;
+        JacobiSymbol jacobiSymbol = new JacobiSymbol();
+        for(int i=0 ;i<3*plain.length ;i+=3)
         {
-            byte pom = 0x00;
-            short plainShort = (short)(((pom & 0xFF) << 8) | (plain[i] & 0xFF));
+            //byte pom = 0x00;
+            //short plainShort = (short)(((plain[i] & 0xFF) << 8) | (pom & 0xFF));
             int tmp;
-            tmp=(plainShort*plainShort);
+            pom =plain[i/3] + 128;
+            tmp=(pom*pom);
+            System.out.println(pom);
             temp=Matma.valueOf(tmp);
             // System.out.println("Tekst jawny o indeksie " + i + "to: " + plain[i]);
             // System.out.print("zkwadratowany element tekstu jawnego : ");
             //System.out.println(temp.mod(n));
             //System.out.println("N: " + n);
             ciphered[i]=temp.mod(n);
+            ciphered[i+1]=Matma.valueOf(pom%2);
+            tmp = jacobiSymbol.computeJacobiSymbol(Matma.valueOf(pom), n);
+            ciphered[i+2]=Matma.valueOf((1+tmp)/2);
+            for(int j=i; j<i+3;j++){
+                System.out.println(ciphered[j]);
+            }
             //System.out.println("zaszyfrowany element: " + ciphered[i]);
         }
         return ciphered;
@@ -97,26 +103,25 @@ public class Rabin {
         tab[0] = Matma.valueOf(0);
         tab[1] = Matma.valueOf(1);
         Matma FOUR = new Matma("4");
-        pom = p.add(Matma.ONE);
-        pom = pom.divide(FOUR);
-        pom2 = q.add(Matma.ONE);
-        pom2 = pom2.divide(FOUR);
+        //pom = p.add(Matma.ONE);
+        //pom = pom.divide(FOUR);
+        //pom2 = q.add(Matma.ONE);
+        //pom2 = pom2.divide(FOUR);
         tmp=gcd(p,q);
         yp=tmp[1];
         yq=tmp[0];
-        for(int i=0 ;i<ciphered.length ;i++)
+        for(int i=0 ;i<ciphered.length ;i+=3)
         {
-
 
 
             //Matma FOUR = new Matma("4");
             pom = p.add(Matma.ONE);
             pom = pom.divide(FOUR);
-            mp1[i] = ciphered[i].modPow(pom, p);
+            mp1[i/3] = ciphered[i].modPow(pom, p);
 
             pom2 = q.add(Matma.ONE);
             pom2 = pom2.divide(FOUR);
-            mq1[i] = ciphered[i].modPow(pom2, q);
+            mq1[i/3] = ciphered[i].modPow(pom2, q);
 ///wykorzystujemy algo euklidesa żeby wyznaczyć liczby spełniające warunek yp*p+yq*q=1
 
 
@@ -124,15 +129,15 @@ public class Rabin {
             //System.out.println("Yp "+ yp);
             //System.out.println("Yq "+ yq);
 
-            pom = (yp.multiply(p)).multiply(mq1[i]);
-            pom2 = (yq.multiply(q)).multiply(mp1[i]);
+            pom = (yp.multiply(p)).multiply(mq1[i/3]);
+            pom2 = (yq.multiply(q)).multiply(mp1[i/3]);
             pom3 = pom.add(pom2);
-            x1[i] = pom3.mod(n);
-            x2[i] = n.subtract(x1[i]);
+            x1[i/3] = pom3.mod(n);
+            x2[i/3] = n.subtract(x1[i/3]);
 
             pom3 = pom.subtract(pom2);
-            x3[i] = pom3.mod(n);
-            x4[i] = n.subtract(x3[i]);
+            x3[i/3] = pom3.mod(n);
+            x4[i/3] = n.subtract(x3[i/3]);
         }
         this.x1=x1;
         this.x2=x2;

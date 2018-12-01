@@ -1,5 +1,3 @@
-
-package sample;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -8,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import sample.Library.Matma;
+import Library.Matma;
 
 
 public class Main extends Application {
@@ -81,7 +79,7 @@ public class Main extends Application {
             String cipheredS = new String(cipheredB);
             cipherOutput.setText(cipheredS);
             cipherInput.decipher(cipheredBI, n, p, q);
-            Correct solution = new Correct(cipherInput, plain);
+            Correct solution = new Correct(cipherInput, plain, cipheredBI, n);
             byte[] decipheredB = solution.choose();
             String decipheredS = new String(decipheredB);
             decipherOutput.setText(decipheredS);
@@ -96,7 +94,7 @@ public class Main extends Application {
             cipherOutput.setText(ss);
             cipherInput.saveToFile(zaszyfrowanyB, fileoutInputC.getText());
             cipherInput.decipher(zaszyfrowany, n, p, q);
-            Correct solution = new Correct(cipherInput, fileContent);
+            Correct solution = new Correct(cipherInput, fileContent, zaszyfrowany, n);
             byte[] odszyfrowany = solution.choose();
             System.out.println("P: " + p);
             System.out.println("Q: " + q);
